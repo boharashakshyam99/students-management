@@ -9,8 +9,8 @@ import { useState } from "react";
 const Teacher = () => {
   const [teachers, setTeachers] = useState([]);
   const [input, setInput] = useState("");
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  // const [totalPage, setTotalPage] = useState(1);
   const nav = useNavigate();
 
   const filteredData = teachers.filter((teacher) => {
@@ -32,13 +32,13 @@ const Teacher = () => {
   async function fetchTeacher() {
     try {
       const res = await axios.get("http://localhost:5000/api/teacher", {
-        params: {
-          page: page,
-          limit: 6,
-        },
+        // params: {
+        //   page: page,
+        //   limit: 6,
+        // },
       });
       setTeachers(res.data.teacher);
-      setTotalPage(res.data.totalPage);
+      // setTotalPage(res.data.totalPage);
       console.log("response", res.data.teacher);
     } catch (error) {
       console.log(error);
@@ -192,7 +192,7 @@ const Teacher = () => {
                   <div className="">
                     <button
                       className="bg-green-400 border rounded-lg pl-3 pr-3 m-2 cursor-pointer"
-                      onClick={() => nav(`/teacher/edit/${teacher._id}`)}
+                      onClick={() => nav(`/addTeacher/${teacher._id}`)}
                     >
                       Edit
                     </button>
@@ -230,7 +230,7 @@ const Teacher = () => {
             </div>
           </div> */}
         </div>
-        <div className="flex justify-center items-center">
+        {/* <div className="flex justify-center items-center">
           <button
             className="p-2 rounded border"
             disabled={page === 1}
@@ -243,12 +243,12 @@ const Teacher = () => {
           </h1>
           <button
             className="p-2 rounded border"
-            onClick={() => setPage(page + 1)}
             disabled={page === totalPage}
+            onClick={() => setPage(page + 1)}
           >
             next
           </button>
-        </div>
+        </div> */}
       </main>
     </div>
   );

@@ -1,19 +1,34 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
 const AddTeacher = () => {
+  const { id } = useParams();
   const nav = useNavigate();
   const [course, setCourse] = useState([]);
+  const [existingData, setExistingData] = useState([]);
   console.log("course", course);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const getExistingTeacher = async (teacherId) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/teacher/${teacherId}`,
+      );
+      console.log("existing teacher", res.data.teacher);
+      setExistingData(res.data.teacher);
+      reset(res.data.teacher);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getCourse = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/course/get");
@@ -26,16 +41,27 @@ const AddTeacher = () => {
   };
 
   const onSubmit = async (data) => {
-    try {
-      const res = await axios.post("http://localhost:5000/api/teacher", data);
-      nav("/teacher");
+    if (id) {
+      const res = await axios.put(
+        `http://localhost:5000/api/teacher/${id}`,
+        data,
+      );
       console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
+      nav("/teacher")
+    } else {
+      try {
+        const res = await axios.post("http://localhost:5000/api/teacher", data);
+        nav("/teacher");
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }                 
   };
   useEffect(() => {
     getCourse();
+
+    getExistingTeacher(id);
   }, []);
 
   return (

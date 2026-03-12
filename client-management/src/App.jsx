@@ -11,7 +11,6 @@ import InCourse from "./pages/InCourse";
 import EditCourse from "./pages/EditCourse";
 import AddTeacher from "./pages/AddTeacher";
 import InTeacher from "./pages/InTeacher";
-import EditTeacher from "./pages/EditTeacher";
 import NotFound from "./component/ErrorPage";
 import AddStudent from "./pages/AddStudent";
 import InStudent from "./pages/InStudent";
@@ -32,8 +31,8 @@ function App() {
         <Route path="/course/:id" element={<InCourse />} />
         <Route path="/course/edit/:id" element={<EditCourse />} />
         <Route path="/addTeacher" element={<AddTeacher />} />
+        <Route path="/addTeacher/:id" element={<AddTeacher />} />
         <Route path="/teacher/:id" element={<InTeacher />} />
-        <Route path="/teacher/edit/:id" element={<EditTeacher />} />
         <Route path="/addStudent" element={<AddStudent />} />
         <Route path="/addStudent/:id" element={<AddStudent />} />
         <Route path="/login" element={<Login />} />

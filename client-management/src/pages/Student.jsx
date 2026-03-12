@@ -6,19 +6,27 @@ import axios from "axios";
 const Student = () => {
   const [studentData, setStudentData] = useState([]);
   const [input, setInput] = useState();
+  const [page, setPage] = useState(1);
+  console.log("this is page", page);
+  const [totalPage, setTotalPage] = useState(1);
 
   const nav = useNavigate();
 
   const filteredData = studentData.filter((student) =>
     student.name?.toLowerCase().includes(input?.toLowerCase() || ""),
   );
+
   const getStudentData = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/student", {
-      
+        params: {
+          page: page,
+          limit: 6,
+        },
       });
       setStudentData(res.data.student);
-      setTotalPage(res.data.totalpage);
+      setTotalPage(res.data.totalPage);
+      console.log("total page", res.data.totalPage);
     } catch (error) {
       console.log(error);
     }
@@ -133,7 +141,25 @@ const Student = () => {
             ))}
           </div>
         </div>
-       
+        <div className="flex justify-center items-center">
+          <button
+            className="p-2 rounded border"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            prev
+          </button>
+          <h1>
+            {page}of{totalPage}
+          </h1>
+          <button
+            className="p-2 rounded border"
+            disabled={page === totalPage}
+            onClick={() => setPage(page + 1)}
+          >
+            next
+          </button>
+        </div>
       </main>
     </div>
   );
